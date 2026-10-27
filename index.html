@@ -88,6 +88,34 @@ footer{text-align:center;color:var(--dim);font-size:.85rem;padding:36px 0;border
 .panel{background:rgba(15,18,38,.78);backdrop-filter:blur(3px)}
 
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+
+/* ---------- Chat widget ---------- */
+#chat-fab{position:fixed;right:22px;bottom:22px;z-index:90;width:60px;height:60px;border-radius:50%;border:0;cursor:pointer;font-size:1.6rem;background:linear-gradient(135deg,var(--violet),var(--sky));box-shadow:0 10px 30px -6px rgba(123,92,255,.7);transition:transform .2s}
+#chat-fab:hover{transform:scale(1.08)}
+#chat{position:fixed;right:22px;bottom:96px;z-index:90;width:360px;max-width:calc(100vw - 24px);height:540px;max-height:calc(100vh - 120px);display:none;flex-direction:column;background:var(--ink2);border:1px solid var(--line);border-radius:18px;box-shadow:0 30px 70px -20px rgba(0,0,0,.8);overflow:hidden}
+#chat.open{display:flex}
+.ch-head{display:flex;align-items:center;gap:12px;padding:14px 16px;background:rgba(123,92,255,.18);border-bottom:1px solid var(--line)}
+.ch-av{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--violet),var(--sky));display:grid;place-items:center;font-weight:800;color:#0F1226;font-family:var(--head)}
+.ch-head b{display:block;font-family:var(--head);font-size:.95rem}
+.ch-head small{color:var(--dim);font-size:.75rem}
+.ch-head button{margin-left:auto;background:none;border:0;color:var(--dim);cursor:pointer;font-size:.8rem;text-decoration:underline}
+.ch-head .x{font-size:1.2rem;text-decoration:none}
+#ch-msgs{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px}
+.m{max-width:84%;padding:10px 14px;border-radius:16px;font-size:.92rem;line-height:1.5;white-space:pre-wrap;word-wrap:break-word}
+.m.bot{background:#232858;border-bottom-left-radius:4px;align-self:flex-start}
+.m.me{background:var(--violet);color:#fff;border-bottom-right-radius:4px;align-self:flex-end}
+.m a{color:var(--sky);text-decoration:underline}
+.typing{display:flex;gap:4px;align-items:center;padding:14px}
+.typing i{width:7px;height:7px;border-radius:50%;background:var(--dim);animation:tp 1s infinite}
+.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+@keyframes tp{0%,60%,100%{opacity:.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-4px)}}
+.chips{display:flex;flex-wrap:wrap;gap:8px;align-self:flex-start}
+.chip{background:transparent;border:1px solid var(--sky);color:var(--sky);border-radius:999px;padding:7px 14px;font:inherit;font-size:.85rem;cursor:pointer}
+.chip:hover{background:var(--sky);color:#0F1226}
+.ch-form{display:flex;gap:8px;padding:12px;border-top:1px solid var(--line);max-width:none}
+.ch-form input{flex:1;border-radius:999px;padding:11px 16px;font-size:.92rem}
+.ch-form button{border:0;border-radius:999px;padding:0 18px;background:var(--violet);color:#fff;font-weight:700;cursor:pointer}
+.ch-form button:disabled,.ch-form input:disabled{opacity:.5;cursor:not-allowed}
 </style>
 </head>
 <body>
@@ -185,13 +213,29 @@ footer{text-align:center;color:var(--dim);font-size:.85rem;padding:36px 0;border
       <div class="links">
         <a class="btn" href="https://wa.me/919950410055" target="_blank" rel="noopener">WhatsApp</a>
         <a class="btn" href="https://github.com/harviesharma05-tech" target="_blank" rel="noopener">GitHub</a>
-        <a class="btn" href="https://www.linkedin.com/in/harvie-sharma-83" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn" href="https://www.linkedin.com/in/harvie-sharma-83879038a" target="_blank" rel="noopener">LinkedIn</a>
       </div>
     </div>
   </section>
 </main>
 
 <footer>© 2026 Harvi Sharma · Freelance web developer, Dehradun</footer>
+
+
+<button id="chat-fab" aria-label="Open chat with Harvi" aria-expanded="false">💬</button>
+<div id="chat" role="dialog" aria-label="Chat with Harvi">
+  <div class="ch-head">
+    <div class="ch-av">H</div>
+    <div><b>Harvi Sharma</b><small>Auto-reply assistant · usually instant</small></div>
+    <button id="ch-lang" type="button" hidden>Language</button>
+    <button id="ch-close" class="x" type="button" aria-label="Close chat">✕</button>
+  </div>
+  <div id="ch-msgs" aria-live="polite"></div>
+  <form class="ch-form" id="ch-form">
+    <input id="ch-in" autocomplete="off" disabled placeholder="Choose a language first…" aria-label="Type your message">
+    <button id="ch-send" disabled>Send</button>
+  </form>
+</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
@@ -289,6 +333,195 @@ footer{text-align:center;color:var(--dim);font-size:.85rem;padding:36px 0;border
     var n = document.getElementById('n').value, em = document.getElementById('e').value, m = document.getElementById('m').value;
     var body = encodeURIComponent('Name: ' + n + '\nEmail: ' + em + '\n\n' + m);
     window.location.href = 'mailto:your-email@example.com?subject=' + encodeURIComponent('Website enquiry from ' + n) + '&body=' + body;
+  });
+})();
+</script>
+<script>
+(function(){
+  /* To make replies truly AI-generated, deploy chatbot-worker.js and paste its URL here. Leave empty to use the built-in smart replies. */
+  var CONFIG = { API_URL: '', PHONE: '919950410055' };
+
+  var T = {
+    en: {
+      ph: 'Type your question…',
+      hello: "Great, let’s chat in English! 😊 I’m Harvi. I build websites for small businesses. Ask me anything — pricing, timelines, my work, or any doubt you have.",
+      chips: ['Pricing', 'How long does it take?', 'Show me your work', 'How do I contact you?'],
+      wa: 'Chat with me on WhatsApp',
+      fallback: ["Good question! I don’t want to guess on that one. The quickest way is to message me directly and I’ll reply properly.", "Hmm, I’m not fully sure about that here. Send it to me on WhatsApp and I’ll give you a proper answer."]
+    },
+    hi: {
+      ph: 'अपना सवाल लिखिए…',
+      hello: 'बढ़िया, अब हिंदी में बात करते हैं! 😊 मैं हर्वी हूँ और छोटे बिज़नेस के लिए वेबसाइट बनाता हूँ। कीमत, समय, मेरे काम या कोई भी डाउट, बेझिझक पूछिए।',
+      chips: ['कीमत क्या है?', 'कितने दिन लगेंगे?', 'आपके प्रोजेक्ट दिखाइए', 'संपर्क कैसे करें?'],
+      wa: 'WhatsApp पर मुझसे बात करें',
+      fallback: ['अच्छा सवाल है! इसका सही जवाब मैं अंदाज़े से नहीं देना चाहता। सीधे मुझे मैसेज कर दीजिए, मैं ठीक से बता दूँगा।', 'इस बारे में मैं यहाँ पक्का नहीं कह सकता। WhatsApp पर भेज दीजिए, मैं आराम से समझा दूँगा।']
+    }
+  };
+
+  /* Knowledge base. Order matters: first match wins. */
+  var KB = [
+    { k: /\b(hi+|hello|hey)\b|namaste|नमस्ते|हाय|हेलो/i,
+      en: ['Hey there! 👋 How can I help you today?', 'Hello! What would you like to know about my work?'],
+      hi: ['नमस्ते! 👋 बताइए, मैं आपकी क्या मदद कर सकता हूँ?', 'हेलो! मेरे काम के बारे में क्या जानना चाहेंगे?'] },
+    { k: /thank|thx|shukriya|dhanyavad|धन्यवाद|शुक्रिया|थैंक/i,
+      en: ['You’re welcome! Anything else you’d like to ask?', 'Happy to help! 😊 Ask me more if you have any doubts.'],
+      hi: ['आपका स्वागत है! कुछ और पूछना हो तो बताइए।', 'खुशी हुई मदद करके! 😊 और कोई डाउट हो तो पूछिए।'] },
+    { k: /\bbye\b|goodbye|alvida|अलविदा|बाय/i,
+      en: ['Bye! Message me anytime if you want a website built. 👋'],
+      hi: ['अलविदा! वेबसाइट बनवानी हो तो कभी भी मैसेज कीजिए। 👋'] },
+    { k: /are you (a |an )?(bot|ai|human|real|robot)|bot ho|ai ho|insaan|इंसान|असली|रोबोट/i,
+      en: ['Honest answer: I’m an auto-reply assistant that answers on Harvi’s behalf using what he has set up here. For anything personal or custom, the real Harvi is a WhatsApp message away.'],
+      hi: ['सच बताऊँ तो मैं एक ऑटो-रिप्लाई असिस्टेंट हूँ जो हर्वी की तरफ़ से जवाब देता हूँ। कुछ खास या पर्सनल बात हो तो असली हर्वी से WhatsApp पर बात कर लीजिए।'] },
+    { k: /how are you|kaise ho|kya haal|कैसे हो|क्या हाल/i,
+      en: ['Doing great, thanks for asking! 😄 What can I do for you?'],
+      hi: ['मैं बढ़िया हूँ, पूछने के लिए शुक्रिया! 😄 बताइए, क्या मदद करूँ?'] },
+    { k: /your name|who are you|tum kaun|aap kaun|apna naam|naam kya|कौन हो|आप कौन|नाम क्या/i,
+      en: ['I’m Harvi Sharma, a freelance web developer from Dehradun and a B.Tech CSE student. I build landing pages, business sites and small web apps.'],
+      hi: ['मैं हर्वी शर्मा हूँ, देहरादून का फ्रीलांस वेब डेवलपर और B.Tech CSE का स्टूडेंट। मैं लैंडिंग पेज, बिज़नेस वेबसाइट और छोटे वेब ऐप बनाता हूँ।'] },
+    { k: /landing/i,
+      en: ['A landing page is one focused page that gets you calls, WhatsApp messages or sign-ups. It starts at ₹999 and I usually deliver it in about 3 days. It’s mobile-friendly and has a WhatsApp button.'],
+      hi: ['लैंडिंग पेज एक फोकस्ड पेज होता है जो आपको कॉल, WhatsApp मैसेज या साइन-अप दिलाता है। यह ₹999 से शुरू होता है और मैं इसे लगभग 3 दिन में दे देता हूँ। यह मोबाइल पर भी अच्छा चलता है और इसमें WhatsApp बटन होता है।'] },
+    { k: /web ?app|dashboard|booking|login|database|ऐप|एप|डैशबोर्ड|लॉगिन/i,
+      en: ['For web apps like booking tools, dashboards or login systems, I give a custom quote after we discuss what you need. I work with JavaScript, Node.js and SQL. Tell me your idea in a line or two and I’ll tell you if it’s doable.'],
+      hi: ['बुकिंग टूल, डैशबोर्ड या लॉगिन जैसे वेब ऐप के लिए मैं आपकी ज़रूरत सुनकर कस्टम कोट देता हूँ। मैं JavaScript, Node.js और SQL पर काम करता हूँ। अपना आइडिया एक-दो लाइन में बताइए, मैं बता दूँगा कि बन सकता है या नहीं।'] },
+    { k: /price|cost|charge|\brate|\bfee\b|budget|kitne|kitna|pricing|कीमत|रेट|पैसे|कितना|कितने रुपये|चार्ज|बजट/i,
+      en: ['Here’s my starter pricing: Landing page from ₹999, business website (up to 5 pages) from ₹2,499, and custom web apps are quoted after we talk. The final cost depends on pages and features. Tell me your budget and I’ll suggest what fits.'],
+      hi: ['मेरी शुरुआती कीमतें ये हैं: लैंडिंग पेज ₹999 से, बिज़नेस वेबसाइट (5 पेज तक) ₹2,499 से, और कस्टम वेब ऐप की कीमत बात करके बताऊँगा। फाइनल रेट पेज और फीचर्स पर निर्भर करता है। अपना बजट बताइए, मैं सही ऑप्शन सुझा दूँगा।'] },
+    { k: /how long|how many days|deadline|delivery|\btime\b|kitne din|kab tak|कितने दिन|कब तक|समय|डिलीवरी|कितना टाइम/i,
+      en: ['A landing page takes about 3 days, and a business website usually takes 7 to 10 days. Bigger web apps depend on the features. You’ll see a live preview early, so nothing is a surprise at the end.'],
+      hi: ['लैंडिंग पेज में लगभग 3 दिन लगते हैं और बिज़नेस वेबसाइट में आमतौर पर 7 से 10 दिन। बड़े वेब ऐप का समय फीचर्स पर निर्भर करता है। आपको शुरू में ही लाइव प्रीव्यू मिल जाता है, तो आखिर में कोई सरप्राइज़ नहीं होता।'] },
+    { k: /process|how does it work|how do we start|steps|get started|kaise shuru|प्रक्रिया|कैसे शुरू|शुरू कैसे/i,
+      en: ['It’s simple. First we discuss your goal, budget and deadline. Then I send a clear scope and price, and you pay an advance to start. I build it and share a live preview for your feedback. Finally I launch the site and support you for 14 days.'],
+      hi: ['बहुत आसान है। पहले हम आपका मकसद, बजट और डेडलाइन डिस्कस करते हैं। फिर मैं साफ़ स्कोप और कीमत भेजता हूँ और आप शुरू करने के लिए एडवांस देते हैं। मैं साइट बनाकर लाइव प्रीव्यू भेजता हूँ ताकि आप फीडबैक दें। आखिर में साइट लॉन्च करके 14 दिन तक सपोर्ट देता हूँ।'] },
+    { k: /skill|tech|stack|language you|react|node|html|javascript|what can you|kya aata|आता है|स्किल|टेक/i,
+      en: ['I work with HTML, CSS and JavaScript for the front end, Node.js with SQL for backend work, and Git and GitHub for version control. I also know C and C#.'],
+      hi: ['मैं फ्रंट-एंड के लिए HTML, CSS और JavaScript, बैकएंड के लिए Node.js और SQL, और वर्ज़न कंट्रोल के लिए Git और GitHub इस्तेमाल करता हूँ। मुझे C और C# भी आती है।'] },
+    { k: /project|portfolio|sample|demo|game|my work|your work|work you|show me|प्रोजेक्ट|काम दिखा|सैंपल|गेम|दिखाइए/i,
+      en: ['Scroll to the Selected projects section above. I’ve built an ARIA chatbot, a live code editor, a weather app, a playable arcade game called Star Dash, a Node.js REST API and a hotel reservation system in C. I also have demo sites for a café and a coaching institute.'],
+      hi: ['ऊपर Selected projects सेक्शन देखिए। मैंने ARIA चैटबॉट, लाइव कोड एडिटर, वेदर ऐप, Star Dash नाम का खेला जा सकने वाला आर्केड गेम, Node.js REST API और C में होटल रिज़र्वेशन सिस्टम बनाया है। कैफ़े और कोचिंग इंस्टिट्यूट के डेमो साइट भी हैं।'] },
+    { k: /contact|whatsapp|call|phone|number|reach|sampark|संपर्क|नंबर|कॉल|फोन|व्हाट्सएप/i,
+      en: ['The fastest way is WhatsApp on 9950410055. You can also use the form at the bottom of this page, or find me on GitHub and LinkedIn.'],
+      hi: ['सबसे तेज़ तरीका WhatsApp है: 9950410055। आप इस पेज के नीचे वाला फॉर्म भी भर सकते हैं, या मुझे GitHub और LinkedIn पर देख सकते हैं।'] },
+    { k: /hire|available|freelanc|can you build|kaam karoge|काम करोगे|बनाओगे|हायर|उपलब्ध/i,
+      en: ['Yes, I’m available for freelance work right now! Tell me what you want to build and by when, and I’ll tell you if it works for my schedule.'],
+      hi: ['हाँ, मैं अभी फ्रीलांस काम के लिए उपलब्ध हूँ! बताइए क्या बनवाना है और कब तक चाहिए, मैं बता दूँगा कि मेरे शेड्यूल में फिट होता है या नहीं।'] },
+    { k: /pay|advance|upi|installment|भुगतान|एडवांस|पेमेंट|यूपीआई/i,
+      en: ['I take an advance (usually 30 to 50 percent) to start the work, and the rest after you approve the final site. We can finalise the payment method on WhatsApp.'],
+      hi: ['काम शुरू करने के लिए मैं एडवांस (आमतौर पर 30 से 50 प्रतिशत) लेता हूँ, और बाकी पैसे आपकी फाइनल साइट अप्रूव करने के बाद। पेमेंट का तरीका हम WhatsApp पर तय कर सकते हैं।'] },
+    { k: /support|change|edit|update|revision|maintenance|badlav|सपोर्ट|बदलाव|बदलना|अपडेट|एडिट/i,
+      en: ['After launch I give 14 days of free support for small fixes and tweaks. For bigger changes later, I’m happy to quote for them separately.'],
+      hi: ['लॉन्च के बाद 14 दिन तक छोटे बदलावों और फिक्स के लिए फ्री सपोर्ट मिलता है। बाद में बड़े बदलाव चाहिए तो उनकी कीमत अलग से बता दूँगा।'] },
+    { k: /host|domain|server|hosting|डोमेन|होस्टिंग|सर्वर/i,
+      en: ['I can help you pick and set up hosting and a domain name. Domain and hosting fees are paid to the provider and are separate from my build price. For simple sites, free hosting options also work well.'],
+      hi: ['होस्टिंग और डोमेन नाम चुनने और सेट करने में मैं मदद कर देता हूँ। डोमेन और होस्टिंग की फीस कंपनी को अलग से देनी होती है, वो मेरी कीमत में शामिल नहीं होती। साधारण साइट के लिए फ्री होस्टिंग भी अच्छी चलती है।'] },
+    { k: /student|college|study|age|geu|graphic era|where are you|location|dehradun|पढ़|कॉलेज|स्टूडेंट|देहरादून|कहाँ/i,
+      en: ['I’m a first-year B.Tech CSE student at Graphic Era in Dehradun. I build websites alongside my studies, which is why I keep my prices student-friendly and my communication quick.'],
+      hi: ['मैं देहरादून में ग्राफिक एरा से B.Tech CSE के पहले साल का स्टूडेंट हूँ। मैं पढ़ाई के साथ वेबसाइट बनाता हूँ, इसीलिए मेरी कीमतें बजट-फ्रेंडली हैं और मैं जल्दी जवाब देता हूँ।'] },
+    { k: /business|website|site|multi.?page|वेबसाइट|साइट|बिज़नेस|दुकान|कोचिंग|क्लिनिक/i,
+      en: ['A business website is a professional multi-page site for a shop, clinic, café or coaching class. It starts at ₹2,499 for up to 5 pages with a contact form, Google Maps and basic SEO, and takes 7 to 10 days. What kind of business is it for?'],
+      hi: ['बिज़नेस वेबसाइट दुकान, क्लिनिक, कैफ़े या कोचिंग के लिए प्रोफेशनल मल्टी-पेज साइट होती है। यह ₹2,499 से शुरू होती है, जिसमें 5 पेज, कॉन्टैक्ट फॉर्म, गूगल मैप्स और बेसिक SEO शामिल है, और 7 से 10 दिन लगते हैं। आपका बिज़नेस किस तरह का है?'] },
+    { k: /doubt|help|question|puch|सवाल|डाउट|मदद|पूछ/i,
+      en: ['Of course, go ahead and ask. I’m listening. 🙂'],
+      hi: ['ज़रूर, पूछिए। मैं सुन रहा हूँ। 🙂'] }
+  ];
+
+  var $ = function(id){ return document.getElementById(id); };
+  var fab = $('chat-fab'), box = $('chat'), msgs = $('ch-msgs'), form = $('ch-form'), inp = $('ch-in'), send = $('ch-send'), langBtn = $('ch-lang');
+  var lang = null, started = false, history = [];
+
+  function pick(a){ return a[Math.floor(Math.random() * a.length)]; }
+  function scroll(){ msgs.scrollTop = msgs.scrollHeight; }
+  function add(text, who, html){
+    var d = document.createElement('div');
+    d.className = 'm ' + who;
+    if (html) d.innerHTML = text; else d.textContent = text;
+    msgs.appendChild(d); scroll(); return d;
+  }
+  function chips(list, handler){
+    var w = document.createElement('div'); w.className = 'chips';
+    list.forEach(function(label){
+      var b = document.createElement('button'); b.type = 'button'; b.className = 'chip'; b.textContent = label;
+      b.addEventListener('click', function(){ w.remove(); handler(label); });
+      w.appendChild(b);
+    });
+    msgs.appendChild(w); scroll();
+  }
+  function waLink(){
+    var a = '<a href="https://wa.me/' + CONFIG.PHONE + '" target="_blank" rel="noopener">' + T[lang].wa + '</a>';
+    return a;
+  }
+  function typing(){
+    var d = document.createElement('div'); d.className = 'm bot typing'; d.innerHTML = '<i></i><i></i><i></i>';
+    msgs.appendChild(d); scroll(); return d;
+  }
+  function enable(on){ inp.disabled = !on; send.disabled = !on; if (on) inp.focus(); }
+
+  function localReply(text){
+    for (var i = 0; i < KB.length; i++) if (KB[i].k.test(text)) return { text: pick(KB[i][lang]), wa: false };
+    return { text: pick(T[lang].fallback), wa: true };
+  }
+
+  async function reply(text){
+    var tp = typing();
+    var out = null;
+    if (CONFIG.API_URL) {
+      try {
+        var r = await fetch(CONFIG.API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ lang: lang, messages: history.slice(-10) }) });
+        var j = await r.json();
+        if (j && j.reply) out = { text: j.reply, wa: false };
+      } catch (e) {}
+    }
+    if (!out) {
+      out = localReply(text);
+      await new Promise(function(res){ setTimeout(res, 600 + Math.min(out.text.length * 6, 900)); });
+    }
+    tp.remove();
+    history.push({ role: 'assistant', content: out.text });
+    var m = add(out.text, 'bot');
+    if (out.wa) { var d = add(waLink(), 'bot', true); }
+  }
+
+  function userSay(text){
+    add(text, 'me');
+    history.push({ role: 'user', content: text });
+    reply(text);
+  }
+
+  function chooseLang(l, label){
+    lang = l; add(label, 'me'); langBtn.hidden = false;
+    inp.placeholder = T[l].ph;
+    var tp = typing();
+    setTimeout(function(){
+      tp.remove(); add(T[l].hello, 'bot'); chips(T[l].chips, userSay); enable(true);
+    }, 700);
+  }
+
+  function begin(){
+    msgs.innerHTML = ''; lang = null; history = []; enable(false);
+    inp.placeholder = 'Choose a language first…'; langBtn.hidden = true;
+    add('Hi! 👋 I’m Harvi. Which language would you like to chat in?\nनमस्ते! मैं हर्वी हूँ। आप किस भाषा में बात करना चाहेंगे?', 'bot');
+    var w = document.createElement('div'); w.className = 'chips';
+    [['English', 'en'], ['हिंदी', 'hi']].forEach(function(p){
+      var b = document.createElement('button'); b.type = 'button'; b.className = 'chip'; b.textContent = p[0];
+      b.addEventListener('click', function(){ w.remove(); chooseLang(p[1], p[0]); });
+      w.appendChild(b);
+    });
+    msgs.appendChild(w);
+  }
+
+  function toggle(open){
+    box.classList.toggle('open', open);
+    fab.setAttribute('aria-expanded', open);
+    if (open && !started) { started = true; begin(); }
+  }
+  fab.addEventListener('click', function(){ toggle(!box.classList.contains('open')); });
+  $('ch-close').addEventListener('click', function(){ toggle(false); });
+  langBtn.addEventListener('click', begin);
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var v = inp.value.trim();
+    if (!v || !lang) return;
+    inp.value = ''; userSay(v);
   });
 })();
 </script>
