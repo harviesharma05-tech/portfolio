@@ -89,6 +89,26 @@ footer{text-align:center;color:var(--dim);font-size:.85rem;padding:36px 0;border
 
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 
+
+/* website demos */
+.demo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:26px;perspective:1000px}
+.demo-thumb{height:190px;border-radius:12px;margin-bottom:18px;overflow:hidden;transform:translateZ(30px);border:1px solid var(--line);position:relative;display:flex;flex-direction:column}
+.demo-thumb .bar{height:22px;background:rgba(0,0,0,.25);display:flex;align-items:center;gap:5px;padding:0 10px}
+.demo-thumb .bar i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.5)}
+.demo-thumb .body{flex:1;padding:16px;display:flex;flex-direction:column;justify-content:center;gap:8px}
+.demo-thumb .l1{height:14px;width:70%;border-radius:4px;background:rgba(255,255,255,.85)}
+.demo-thumb .l2{height:8px;width:90%;border-radius:4px;background:rgba(255,255,255,.4)}
+.demo-thumb .l3{height:8px;width:60%;border-radius:4px;background:rgba(255,255,255,.4)}
+.demo-thumb .pill{margin-top:6px;height:22px;width:90px;border-radius:999px}
+.t-cafe{background:linear-gradient(135deg,#3B2418,#C8742E)}
+.t-cafe .pill{background:#FBF4E9}
+.t-coach{background:linear-gradient(135deg,#0B2545,#1D6FE8)}
+.t-coach .pill{background:#FFB703}
+.demo-card .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;transform:translateZ(24px)}
+.demo-card .btns a{padding:10px 18px;border-radius:10px;font-weight:700;font-size:.88rem;border:1px solid var(--line)}
+.demo-card .btns a.p{background:linear-gradient(135deg,var(--violet),var(--sky));color:#0F1226;border:0}
+.demo-note{margin-top:30px;color:var(--dim);font-size:.9rem;max-width:620px}
+
 /* ---------- Chat widget ---------- */
 #chat-fab{position:fixed;right:22px;bottom:22px;z-index:90;width:60px;height:60px;border-radius:50%;border:0;cursor:pointer;font-size:1.6rem;background:linear-gradient(135deg,var(--violet),var(--sky));box-shadow:0 10px 30px -6px rgba(123,92,255,.7);transition:transform .2s}
 #chat-fab:hover{transform:scale(1.08)}
@@ -126,6 +146,7 @@ footer{text-align:center;color:var(--dim);font-size:.85rem;padding:36px 0;border
     <a href="#top" class="logo">Harvi Sharma</a>
     <ul>
       <li><a href="#services">Services</a></li>
+      <li><a href="#demos">Demos</a></li>
       <li><a href="#work">Work</a></li>
       <li><a href="#process">Process</a></li>
       <li><a href="#pricing">Pricing</a></li>
@@ -157,6 +178,30 @@ footer{text-align:center;color:var(--dim);font-size:.85rem;padding:36px 0;border
         <div class="card tilt"><span class="ico">⚙️</span><h3>Web app</h3><p>Dashboards, booking tools, calculators and forms with JavaScript and Node.js.</p></div>
         <div class="card tilt"><span class="ico">🔧</span><h3>Fix &amp; redesign</h3><p>Slow, broken or outdated site? I’ll speed it up and make it work on phones.</p></div>
       </div>
+    </div>
+  </section>
+
+  <section id="demos" class="panel">
+    <div class="wrap">
+      <h2>Website demos</h2>
+      <p class="sub">Don’t just take my word for it. These are two complete sample websites I built to show what your business site could look like. Open them on your phone and your laptop.</p>
+      <div class="demo-grid">
+        <div class="card tilt demo-card">
+          <div class="demo-thumb t-cafe"><div class="bar"><i></i><i></i><i></i></div><div class="body"><div class="l1"></div><div class="l2"></div><div class="l3"></div><div class="pill"></div></div></div>
+          <h3>Doon Brew Café</h3>
+          <p>Café website with an interactive menu, opening hours and WhatsApp ordering and table booking.</p>
+          <div class="tags"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>Responsive</span></div>
+          <div class="btns"><a class="p" href="https://harviesharma05-tech.github.io/demo-cafe/" target="_blank" rel="noopener">Open live demo</a><a href="https://github.com/harviesharma05-tech/demo-cafe" target="_blank" rel="noopener">View code</a></div>
+        </div>
+        <div class="card tilt demo-card">
+          <div class="demo-thumb t-coach"><div class="bar"><i></i><i></i><i></i></div><div class="body"><div class="l1"></div><div class="l2"></div><div class="l3"></div><div class="pill"></div></div></div>
+          <h3>Summit Academy</h3>
+          <p>Coaching institute website with courses and fees, an FAQ section and a demo class booking form.</p>
+          <div class="tags"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>Forms</span></div>
+          <div class="btns"><a class="p" href="https://harviesharma05-tech.github.io/summit-academy/" target="_blank" rel="noopener">Open live demo</a><a href="https://github.com/harviesharma05-tech/summit-academy" target="_blank" rel="noopener">View code</a></div>
+        </div>
+      </div>
+      <p class="demo-note">These are sample sites with made-up names and prices. Yours will use your own logo, photos, colours and content, and can be ready in 3 to 10 days.</p>
     </div>
   </section>
 
@@ -338,7 +383,7 @@ footer{text-align:center;color:var(--dim);font-size:.85rem;padding:36px 0;border
 </script>
 <script>
 (function(){
-  /* To make replies truly AI-generated, deploy chatbot-worker.js and paste its URL here. Leave empty to use the built-in smart replies. */
+  /* To make replies truly AI-generated, deploy worker.js and paste its URL here. Leave empty to use the built-in smart replies. */
   var CONFIG = { API_URL: '', PHONE: '919950410055' };
 
   var T = {
