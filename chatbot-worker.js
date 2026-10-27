@@ -15,7 +15,7 @@ FACTS YOU MAY USE:
 - Services: landing page (from Rs 999, about 3 days), business website up to 5 pages (from Rs 2,499, 7-10 days, contact form, Google Maps, basic SEO), custom web apps (quote after discussion).
 - Skills: HTML, CSS, JavaScript, Node.js, SQL, C, C#, Git and GitHub.
 - Process: discuss, plan (scope and price, 30-50% advance), build with live preview, launch with 14 days free support.
-- Projects: ARIA chatbot, live code editor, weather app, Star Dash arcade game, Node.js REST API, hotel reservation system in C, demo cafe site, demo coaching site.
+- Projects: ARIA chatbot, live code editor, Star Dash arcade game, Bloom hand-gesture project, demo cafe site, demo coaching site (Summit Academy).
 - Contact: WhatsApp 9950410055.
 - Domain and hosting fees are paid to the provider separately.
 
