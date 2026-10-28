@@ -90,6 +90,14 @@ footer{text-align:center;color:var(--dim);font-size:.85rem;padding:36px 0;border
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 
 
+/* profile */
+.me{display:flex;align-items:center;gap:16px;margin-bottom:24px}
+.avatar{width:92px;height:92px;border-radius:50%;object-fit:cover;border:3px solid var(--violet);box-shadow:0 0 0 6px rgba(123,92,255,.22),0 14px 34px -8px rgba(123,92,255,.75)}
+.me b{display:block;font-family:var(--head);font-size:1.05rem}
+.me span{font-size:.85rem;color:var(--dim)}
+.me span::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:#3DDC84;margin-right:7px;box-shadow:0 0 10px #3DDC84}
+.ch-av img{width:100%;height:100%;border-radius:50%;object-fit:cover}
+
 /* website demos */
 .demo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:26px;perspective:1000px}
 .demo-thumb{height:190px;border-radius:12px;margin-bottom:18px;overflow:hidden;transform:translateZ(30px);border:1px solid var(--line);position:relative;display:flex;flex-direction:column}
@@ -158,6 +166,10 @@ footer{text-align:center;color:var(--dim);font-size:.85rem;padding:36px 0;border
 <main id="top">
   <section class="hero">
     <div class="wrap">
+      <div class="me">
+        <img class="avatar" src="photo.jpeg" alt="Harvi Sharma" width="92" height="92">
+        <div><b>Harvi Sharma</b><span>Available for freelance work</span></div>
+      </div>
       <h1>I build fast, clean websites for small businesses.</h1>
       <p>Freelance web developer from Dehradun. Landing pages, business sites and web apps — delivered on time, mobile-friendly, and easy for you to update.</p>
       <div class="cta">
@@ -254,7 +266,7 @@ footer{text-align:center;color:var(--dim);font-size:.85rem;padding:36px 0;border
         <button class="btn main" type="submit">Send message</button>
       </form>
       <div class="links">
-        <a class="btn" href="https://wa.me/919950410055" target="_blank" rel="noopener">WhatsApp</a>
+        <a class="btn" href="#contact" data-wa role="button">WhatsApp</a>
         <a class="btn" href="https://github.com/harviesharma05-tech" target="_blank" rel="noopener">GitHub</a>
         <a class="btn" href="https://www.linkedin.com/in/harvie-sharma-83879038a" target="_blank" rel="noopener">LinkedIn</a>
       </div>
@@ -268,7 +280,7 @@ footer{text-align:center;color:var(--dim);font-size:.85rem;padding:36px 0;border
 <button id="chat-fab" aria-label="Open chat with Harvi" aria-expanded="false">💬</button>
 <div id="chat" role="dialog" aria-label="Chat with Harvi">
   <div class="ch-head">
-    <div class="ch-av">H</div>
+    <div class="ch-av"><img src="photo.jpeg" alt="Harvi" width="38" height="38"></div>
     <div><b>Harvi Sharma</b><small>Auto-reply assistant · usually instant</small></div>
     <button id="ch-lang" type="button" hidden>Language</button>
     <button id="ch-close" class="x" type="button" aria-label="Close chat">✕</button>
@@ -382,7 +394,15 @@ footer{text-align:center;color:var(--dim);font-size:.85rem;padding:36px 0;border
 <script>
 (function(){
   /* To make replies truly AI-generated, deploy worker.js and paste its URL here. Leave empty to use the built-in smart replies. */
-  var CONFIG = { API_URL: '', PHONE: '919950410055' };
+  var CONFIG = { API_URL: '' };
+  /* WhatsApp number is stored encoded and only used when someone taps a WhatsApp button, so it is never shown on the page. */
+  var WA_ENC = 'OTE5OTUwNDEwMDU1';
+  document.addEventListener('click', function(e){
+    var a = e.target.closest('[data-wa]');
+    if (!a) return;
+    e.preventDefault();
+    window.open('https://wa.me/' + atob(WA_ENC) + '?text=' + encodeURIComponent('Hi Harvi, I saw your portfolio and I want to build a website.'), '_blank', 'noopener');
+  });
 
   var T = {
     en: {
@@ -443,8 +463,8 @@ footer{text-align:center;color:var(--dim);font-size:.85rem;padding:36px 0;border
       en: ['Scroll to the Selected projects section above. I’ve built an ARIA chatbot, a live code editor, a playable arcade game called Star Dash and Bloom, a hand-gesture project you control with your webcam. I also have demo sites for a café and a coaching institute.'],
       hi: ['ऊपर Selected projects सेक्शन देखिए। मैंने ARIA चैटबॉट, लाइव कोड एडिटर, Star Dash नाम का खेला जा सकने वाला आर्केड गेम और Bloom नाम का हैंड-जेस्चर प्रोजेक्ट बनाया है, जिसे आप वेबकैम से कंट्रोल करते हैं। कैफ़े और कोचिंग इंस्टिट्यूट के डेमो साइट भी हैं।'] },
     { k: /contact|whatsapp|call|phone|number|reach|sampark|संपर्क|नंबर|कॉल|फोन|व्हाट्सएप/i,
-      en: ['The fastest way is WhatsApp on 9950410055. You can also use the form at the bottom of this page, or find me on GitHub and LinkedIn.'],
-      hi: ['सबसे तेज़ तरीका WhatsApp है: 9950410055। आप इस पेज के नीचे वाला फॉर्म भी भर सकते हैं, या मुझे GitHub और LinkedIn पर देख सकते हैं।'] },
+      en: ['The fastest way is WhatsApp. Tap the button below and a chat with me will open. You can also use the form at the bottom of this page, or find me on GitHub and LinkedIn.'], wa: true,
+      hi: ['सबसे तेज़ तरीका WhatsApp है। नीचे वाले बटन पर टैप कीजिए, मेरे साथ चैट खुल जाएगी। आप इस पेज के नीचे वाला फॉर्म भी भर सकते हैं, या मुझे GitHub और LinkedIn पर देख सकते हैं।'] },
     { k: /hire|available|freelanc|can you build|kaam karoge|काम करोगे|बनाओगे|हायर|उपलब्ध/i,
       en: ['Yes, I’m available for freelance work right now! Tell me what you want to build and by when, and I’ll tell you if it works for my schedule.'],
       hi: ['हाँ, मैं अभी फ्रीलांस काम के लिए उपलब्ध हूँ! बताइए क्या बनवाना है और कब तक चाहिए, मैं बता दूँगा कि मेरे शेड्यूल में फिट होता है या नहीं।'] },
@@ -490,7 +510,7 @@ footer{text-align:center;color:var(--dim);font-size:.85rem;padding:36px 0;border
     msgs.appendChild(w); scroll();
   }
   function waLink(){
-    var a = '<a href="https://wa.me/' + CONFIG.PHONE + '" target="_blank" rel="noopener">' + T[lang].wa + '</a>';
+    var a = '<a href="#" data-wa>' + T[lang].wa + '</a>';
     return a;
   }
   function typing(){
@@ -500,7 +520,7 @@ footer{text-align:center;color:var(--dim);font-size:.85rem;padding:36px 0;border
   function enable(on){ inp.disabled = !on; send.disabled = !on; if (on) inp.focus(); }
 
   function localReply(text){
-    for (var i = 0; i < KB.length; i++) if (KB[i].k.test(text)) return { text: pick(KB[i][lang]), wa: false };
+    for (var i = 0; i < KB.length; i++) if (KB[i].k.test(text)) return { text: pick(KB[i][lang]), wa: !!KB[i].wa };
     return { text: pick(T[lang].fallback), wa: true };
   }
 
