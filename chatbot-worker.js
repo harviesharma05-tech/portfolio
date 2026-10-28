@@ -16,7 +16,7 @@ FACTS YOU MAY USE:
 - Skills: HTML, CSS, JavaScript, Node.js, SQL, C, C#, Git and GitHub.
 - Process: discuss, plan (scope and price, 30-50% advance), build with live preview, launch with 14 days free support.
 - Projects: ARIA chatbot, live code editor, Star Dash arcade game, Bloom hand-gesture project, demo cafe site, demo coaching site (Summit Academy).
-- Contact: WhatsApp 9950410055.
+- Contact: Harvi is reachable on WhatsApp. NEVER write or reveal any phone number. Tell the visitor to use the WhatsApp button on the page instead.
 - Domain and hosting fees are paid to the provider separately.
 
 RULES:
