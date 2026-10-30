@@ -84,11 +84,7 @@ textarea{min-height:110px;resize:vertical}
 .links{display:flex;gap:14px;flex-wrap:wrap;margin-top:26px}
 footer{text-align:center;color:var(--dim);font-size:.85rem;padding:36px 0;border-top:1px solid var(--line);background:rgba(15,18,38,.8)}
 
-/* sections get a faint panel so text stays readable over the 3D scene */
-
-
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
-
 
 /* animated background */
 .bg{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;background:linear-gradient(160deg,#0F1226,#1A1040 55%,#0B1B3A)}
@@ -310,7 +306,6 @@ h2{background:linear-gradient(90deg,#fff,#CBBFFF);-webkit-background-clip:text;b
 
 <footer>© 2026 Harvi Sharma · Frontend developer, Dehradun</footer>
 
-
 <button id="chat-fab" aria-label="Open chat with Harvi" aria-expanded="false">💬</button>
 <div id="chat" role="dialog" aria-label="Chat with Harvi">
   <div class="ch-head">
@@ -433,7 +428,7 @@ h2{background:linear-gradient(90deg,#fff,#CBBFFF);-webkit-background-clip:text;b
 </script>
 <script>
 (function(){
-  /* To make replies truly AI-generated, deploy worker.js and paste its URL here. Leave empty to use the built-in smart replies. */
+  /* To make replies truly AI-generated, deploy chatbot-worker.js and paste its URL here. Leave empty to use the built-in smart replies. */
   var CONFIG = { API_URL: '' };
   /* WhatsApp number is stored encoded and only used when someone taps a WhatsApp button, so it is never shown on the page. */
   var WA_ENC = 'OTE5OTUwNDEwMDU1';
@@ -487,10 +482,10 @@ h2{background:linear-gradient(90deg,#fff,#CBBFFF);-webkit-background-clip:text;b
     { k: /backend|database|payment (integration|gateway)|web ?app|बैकएंड|डेटाबेस|पेमेंट इंटीग्रेशन|वेब ऐप/i,
       en: ['I focus on the frontend, which means HTML, CSS and basic JavaScript. Backend development, databases and payment integration are not included in my packages, but if you need something like that we can discuss it separately.'],
       hi: ['मैं फ्रंटएंड पर काम करती हूँ, यानी HTML, CSS और बेसिक JavaScript। बैकएंड, डेटाबेस और पेमेंट इंटीग्रेशन मेरे पैकेज में शामिल नहीं हैं, लेकिन ज़रूरत हो तो हम अलग से बात कर सकते हैं।'] },
-    { k: /price|cost|charge|\\brate|\\bfee\\b|budget|kitne|kitna|pricing|package|gold|platinum|कीमत|रेट|पैसे|कितना|कितने रुपये|चार्ज|बजट|पैकेज/i,
+    { k: /price|cost|charge|\brate|\bfee\b|budget|kitne|kitna|pricing|package|gold|platinum|कीमत|रेट|पैसे|कितना|कितने रुपये|चार्ज|बजट|पैकेज/i,
       en: ['My packages are Silver (single page) from ₹999, Gold (up to 2 pages) from ₹1,699 and Platinum (up to 3 pages) from ₹2,499. All include source code and responsive layouts. Tell me what you need and I’ll suggest the right one.'],
       hi: ['मेरे पैकेज ये हैं: Silver (सिंगल पेज) ₹999 से, Gold (2 पेज तक) ₹1,699 से और Platinum (3 पेज तक) ₹2,499 से। सभी में सोर्स कोड और रेस्पॉन्सिव लेआउट शामिल हैं। बताइए आपको क्या चाहिए, मैं सही पैकेज सुझा दूँगी।'] },
-    { k: /how long|how many days|deadline|delivery|\\btime\\b|kitne din|kab tak|कितने दिन|कब तक|समय|डिलीवरी|कितना टाइम/i,
+    { k: /how long|how many days|deadline|delivery|\btime\b|kitne din|kab tak|कितने दिन|कब तक|समय|डिलीवरी|कितना टाइम/i,
       en: ['Silver takes about 3 days, Gold about 5 days and Platinum about 7 days. You’ll see progress along the way, so there are no surprises at the end.'],
       hi: ['Silver में लगभग 3 दिन, Gold में लगभग 5 दिन और Platinum में लगभग 7 दिन लगते हैं। आपको बीच-बीच में काम दिखाती रहूँगी, तो आखिर में कोई सरप्राइज़ नहीं होगा।'] },
     { k: /process|how does it work|how do we start|steps|get started|kaise shuru|प्रक्रिया|कैसे शुरू|शुरू कैसे/i,
@@ -517,7 +512,7 @@ h2{background:linear-gradient(90deg,#fff,#CBBFFF);-webkit-background-clip:text;b
     { k: /host|domain|server|hosting|डोमेन|होस्टिंग|सर्वर/i,
       en: ['Domain registration and paid hosting are not included in my packages, but I’m happy to guide you. For simple sites, free hosting like GitHub Pages works really well.'],
       hi: ['डोमेन रजिस्ट्रेशन और पेड होस्टिंग मेरे पैकेज में शामिल नहीं हैं, लेकिन मैं आपको गाइड कर दूँगी। साधारण साइट के लिए GitHub Pages जैसी फ्री होस्टिंग बहुत अच्छी चलती है।'] },
-    { k: /student|college|study|age|geu|graphic era|where are you|location|dehradun|पढ़|कॉलेज|स्टूडेंट|देहरादून|कहाँ/i,
+    { k: /student|college|study|\bage\b|geu|graphic era|where are you|location|dehradun|पढ़|कॉलेज|स्टूडेंट|देहरादून|कहाँ/i,
       en: ['I’m a first-year B.Tech CSE student at Graphic Era in Dehradun. I build websites alongside my studies, which is why I keep my prices student-friendly and my communication quick.'],
       hi: ['मैं देहरादून में ग्राफिक एरा से B.Tech CSE के पहले साल का स्टूडेंट हूँ। मैं पढ़ाई के साथ वेबसाइट बनाती हूँ, इसीलिए मेरी कीमतें बजट-फ्रेंडली हैं और मैं जल्दी जवाब देती हूँ।'] },
     { k: /business|website|site|multi.?page|वेबसाइट|साइट|बिज़नेस|दुकान|कोचिंग|क्लिनिक/i,
